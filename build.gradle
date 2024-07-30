@@ -1,0 +1,62 @@
+buildscript {
+    ext {
+        springBootVersion = '3.2.2'
+        springDependencyManagementVersion = '1.1.4'
+    }
+}
+
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version "$springBootVersion"
+    id 'io.spring.dependency-management' version "$springDependencyManagementVersion"
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+    group =  'com.casumo'
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+bootJar {
+    archiveFileName = 'service.jar'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+    implementation "org.springframework.boot:spring-boot-starter-actuator"
+    implementation "org.springframework.boot:spring-boot-starter-web"
+    implementation "org.springframework.boot:spring-boot-starter-data-jpa"
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    runtimeOnly "com.h2database:h2"
+    implementation 'org.flywaydb:flyway-core'
+    implementation 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0'
+}
+
+testing {
+    suites {
+        configureEach {
+            useJUnitJupiter()
+        }
+
+        test {
+            dependencies {
+                implementation("org.springframework.boot:spring-boot-starter-test") {
+                    exclude group: "org.junit.vintage", module: "junit-vintage-engine"
+                }
+            }
+        }
+    }
+}

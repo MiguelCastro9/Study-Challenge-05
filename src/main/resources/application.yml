@@ -1,0 +1,31 @@
+spring:
+    application.name: video-rental-store
+
+    logging.config: "classpath:logback.xml"
+    
+    h2:
+      console:
+        enabled: true
+        path: /h2-console
+
+    datasource:
+      url: jdbc:h2:mem:videorentalstoredb
+      driver-class-name: org.h2.Driver
+      username: admin
+      password: admin
+
+    jpa:
+      database: H2
+      show-sql: true
+      open-in-view: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, heapdump, threaddump, loggers
+      base-path: /
+      
+prices:
+  premium: 40
+  basic: 30
